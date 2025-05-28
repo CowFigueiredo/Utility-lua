@@ -9,7 +9,7 @@ export type MaidClass = {
 
 	new: () -> Maid,
 
-	Add: <E>(self: Maid, task: MaidTask | E) -> E,
+	Add: <E>(self: Maid, task: MaidTask & E) -> E,
 	Clear: (self: Maid) -> (),
 	Remove: (self: Maid, task: MaidTask) -> boolean
 }
@@ -37,7 +37,7 @@ function Maid.new(): Maid
 	return setmetatable({tasks = {}}, Maid)
 end
 
-function Maid.Add<E>(self: Maid, task: MaidTask | E): E
+function Maid.Add<E>(self: Maid, task: MaidTask & E): E
 	self.tasks[#self.tasks + 1] = task :: MaidTask
 	return task :: E
 end
