@@ -38,8 +38,8 @@ function Maid.new(): Maid
 end
 
 function Maid.Add<E>(self: Maid, task: MaidTask & E): E
-	self.tasks[#self.tasks + 1] = task :: MaidTask
-	return task :: E
+	self.tasks[#self.tasks + 1] = task
+	return task
 end
 
 function Maid.Clear(self: Maid)
@@ -48,8 +48,6 @@ function Maid.Clear(self: Maid)
 			Drop(table.remove(self.tasks, i))
 		end
 	end
-
-	table.clear(self.tasks)
 end
 
 function Maid.Remove(self: Maid, task: MaidTask)
