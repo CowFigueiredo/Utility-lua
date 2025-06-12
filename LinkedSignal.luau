@@ -30,7 +30,7 @@ function LinkedListener.Disconnect<T...>(self: LinkedListener<T...>)
 end
 
 local LinkedSignal = {}
-(LinkedSignal :: any).__index = LinkedSignal
+LinkedSignal.__index = LinkedSignal
 
 function LinkedSignal.new<T...>(): LinkedSignal<T...>
 	local self: LinkedSignal<T...> = setmetatable({}, LinkedSignal) :: any
