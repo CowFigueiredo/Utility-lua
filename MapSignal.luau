@@ -2,6 +2,8 @@
 
 -- Adaptado por Cow.
 
+local Task = require(script.Parent.Task)
+
 export type Listener<T...> = {
 	signal: Signal<T...>?,
 	Disconnect: (self: Listener<T...>) -> ()
@@ -17,7 +19,7 @@ export type Signal<T...> = {
 }
 
 local MapListener = {}
-(MapListener :: any).__index = MapListener
+MapListener.__index = MapListener
 
 function MapListener.Disconnect<T...>(self: Listener<T...>)
 	if self.signal then
@@ -27,7 +29,7 @@ function MapListener.Disconnect<T...>(self: Listener<T...>)
 end
 
 local MapSignal = {}
-(MapSignal :: any).__index = MapSignal
+MapSignal.__index = MapSignal
 
 function MapSignal.new<T...>(): Signal<T...>
 	return setmetatable({listeners = {}, threads = {}}, MapSignal) :: any
@@ -41,11 +43,11 @@ function MapSignal.Connect<T...>(self: Signal<T...>, callback: (T...) -> ()): Li
 end
 
 function MapSignal.Fire<T...>(self: Signal<T...>, ...: T...)
-	for _, callback in self.listeners do
-		task.defer(callback, ...)
+	for _, callback in pairs(self.listeners) do
+		Task.Defer(callback, ...)
 	end
 
-	for _, thread in self.threads do
+	for _, thread in pairs(self.threads) do
 		task.defer(thread, ...)
 	end
 
@@ -53,8 +55,8 @@ function MapSignal.Fire<T...>(self: Signal<T...>, ...: T...)
 end
 
 function MapSignal.Wait<T...>(self: Signal<T...>): T...
-	self.threads[#self.threads + 1] = coroutine.running()
+	table.insert(self.threads, coroutine.running())
 	return coroutine.yield()
 end
 
-return MapSignal
+return table.freeze(MapSignal)
