@@ -38,7 +38,7 @@ function Maid.new(): Maid
 end
 
 function Maid.Add<E>(self: Maid, task: MaidTask & E): E
-	self.tasks[#self.tasks + 1] = task
+	table.insert(self.tasks, task)
 	return task
 end
 
@@ -61,4 +61,4 @@ function Maid.Remove(self: Maid, task: MaidTask)
 	return exists
 end
 
-return Maid
+return table.freeze(Maid)
