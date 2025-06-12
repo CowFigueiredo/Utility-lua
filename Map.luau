@@ -20,7 +20,7 @@ export type Map<K, V> = {
 }
 
 local Map = {}
-(Map :: any).__index = Map
+Map.__index = Map
 
 function Map.new<K, V>(): Map<K, V>
 	return setmetatable({
@@ -46,7 +46,7 @@ function Map.Contains<K, V>(self: Map<K, V>, key: K): boolean
 end
 
 function Map.ContainsAll<K, V>(self: Map<K, V>, ...: K): boolean
-	for _, k in {...} do
+	for _, k in ipairs({...}) do
 		if self.table[k] == nil then
 			return false
 		end
@@ -57,7 +57,7 @@ end
 
 function Map.Find<K, V>(self: Map<K, V>, value: V): K?
 	if self.size > 0 then
-		for k, v in self.table do
+		for k, v in pairs(self.table) do
 			if v == value then
 				return k
 			end
@@ -74,7 +74,7 @@ end
 function Map.Keys<K, V>(self: Map<K, V>): {K}
 	local keys = table.create(self.size)
 
-	for k in self.table do
+	for k in pairs(self.table) do
 		keys[#keys + 1] = k
 	end
 
@@ -93,7 +93,7 @@ function Map.Put<K, V>(self: Map<K, V>, key: K, value: V): boolean
 end
 
 function Map.PutAll<K, V>(self: Map<K, V>, map: {[K]: V})
-	for k, v in map do
+	for k, v in pairs(map) do
 		if self.table[k] == nil then
 			self.size += 1
 		end
@@ -116,7 +116,7 @@ end
 function Map.Values<K, V>(self: Map<K, V>): {V}
 	local values = table.create(self.size)
 
-	for _, v in self.table do
+	for _, v in pairs(self.table) do
 		values[#values + 1] = v
 	end
 
