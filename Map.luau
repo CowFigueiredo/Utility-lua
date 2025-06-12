@@ -1,6 +1,6 @@
 --!strict
 
--- Adaptado por Cow.
+-- Adaptação por Cow.
 
 export type Map<K, V> = {
 	size: number,
@@ -123,4 +123,4 @@ function Map.Values<K, V>(self: Map<K, V>): {V}
 	return values
 end
 
-return Map
+return table.freeze(Map)
