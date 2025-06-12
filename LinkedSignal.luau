@@ -22,7 +22,7 @@ export type LinkedSignal<T...> = {
 }
 
 local LinkedListener = {}
-(LinkedListener :: any).__index = LinkedListener
+LinkedListener.__index = LinkedListener
 
 function LinkedListener.Disconnect<T...>(self: LinkedListener<T...>)
 	self.previous.next = self.next
