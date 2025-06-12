@@ -79,4 +79,4 @@ function LinkedSignal.Wait<T...>(self: LinkedSignal<T...>): T...
 	return coroutine.yield()
 end
 
-return LinkedSignal
+return table.freeze(LinkedSignal)
